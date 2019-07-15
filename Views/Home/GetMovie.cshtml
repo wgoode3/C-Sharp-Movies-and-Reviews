@@ -1,0 +1,32 @@
+<a href="/">Home</a>
+
+<div class="jumbotron">
+    <h1>@ViewBag.Movie.Title (@ViewBag.Movie.Year)</h1>
+</div>
+
+<form action="/review" method="post">
+    <input type="hidden" name="MovieId" value="@ViewBag.Movie.MovieId" />
+    <label>Your Name:</label>
+    <input type="text" name="Name" />
+    <label># of Stars</label>
+    <select name="Rating">
+        <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
+        <option value="4">&starf;&starf;&starf;&starf;</option>
+        <option selected="selected" value="3">&starf;&starf;&starf;</option>
+        <option value="2">&starf;&starf;</option>
+        <option value="1">&starf;</option>
+    </select>
+    <label>Comment</label><br>
+    <textarea name="Comment"></textarea>
+    <input type="submit" />
+</form>
+
+@foreach(Review review in @ViewBag.Movie.Reviews)
+{
+    <div class="well">
+        <p>@review.Rating</p>
+        <p>@review.Name</p>
+        <p>@review.Comment</p>
+        <p>@review.MovieId</p>
+    </div>
+}

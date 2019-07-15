@@ -1,0 +1,24 @@
+﻿
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Review?</th>
+    </tr>
+    @foreach (var movie in ViewBag.Movies)
+    {
+        <tr>
+            <td>@movie.Title</td>
+            <td>@movie.Year</td>
+            <td><a href="/movie/@movie.MovieId">Review</a></td>
+        </tr>
+    }
+</table>
+
+<form action="/movie" method="post">
+    <label>Title</label>
+    <input type="text" name="Title" />
+    <label>Year</label>
+    <input type="number" name="Year" />
+    <input type="submit" />
+</form>
