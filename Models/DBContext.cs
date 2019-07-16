@@ -11,10 +11,16 @@ namespace MovieReviews.Models {
         }
         public DbSet<Movie> Movies {get;set;}
         public DbSet<Review> Reviews {get;set;}
+        public DbSet<Genre> Genres {get;set;}
+        public DbSet<MovieHasGenres> MovieHasGenres {get;set;}
 
         public Movie GetMovieById(int MovieId)
         {
-            return Movies.Include(m => m.Reviews).FirstOrDefault(m => m.MovieId == MovieId);
+            return Movies
+                .Include(m => m.Reviews)
+                .Include(m => m.Genres)
+                .ThenInclude(mg => mg.MovieGenre)
+                .FirstOrDefault(m => m.MovieId == MovieId);
         }
 
     }

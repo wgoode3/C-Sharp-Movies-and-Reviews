@@ -15,5 +15,6 @@ namespace MovieReviews.Models
         public DateTime CreatedAt {get;set;} = DateTime.Now;
         public DateTime UpdatedAt {get;set;} = DateTime.Now;
         public List<Review> Reviews {get;set;}
+        public List<MovieHasGenres> Genres {get;set;}
     }
 }

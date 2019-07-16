@@ -1,0 +1,11 @@
+<form action="/genre" method="post">
+    <input type="text" name="Name" />
+    <input type="submit" />
+</form>
+
+<ul>
+    @foreach (var genre in ViewBag.Genres)
+    {
+        <li>@genre.Name</li>
+    }
+</ul>

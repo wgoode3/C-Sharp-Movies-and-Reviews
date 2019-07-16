@@ -39,6 +39,7 @@ namespace MovieReviews.Controllers
         [HttpGet("movie/{MovieId}")]
         public IActionResult GetMovie(int MovieId)
         {
+            ViewBag.Genres = context.Genres;
             ViewBag.Movie = context.GetMovieById(MovieId);
             return View();
         }
@@ -51,6 +52,34 @@ namespace MovieReviews.Controllers
                 context.Reviews.Add(r);
                 context.SaveChanges();
                 Console.WriteLine(r.MovieId);
+            }
+            return Redirect("/");
+        }
+
+        [HttpGet("genre")]
+        public IActionResult GenreForm()
+        {
+            ViewBag.Genres = context.Genres;
+            return View();
+        }
+
+        [HttpPost("genre")]
+        public IActionResult CreateGenre(Genre g)
+        {
+            context.Genres.Add(g);
+            context.SaveChanges();
+            return Redirect("/genre");
+        }
+
+        [HttpPost("add_genre/{MovieId}")]
+        public IActionResult AddGenre(int MovieId, int GenreId)
+        {
+            int matches = context.MovieHasGenres.Where(g => g.MovieId == MovieId).Where(g => g.GenreId == GenreId).Count(); 
+            if(matches == 0)
+            {
+                MovieHasGenres mg = new MovieHasGenres(MovieId, GenreId);
+                context.MovieHasGenres.Add(mg);
+                context.SaveChanges();
             }
             return Redirect("/");
         }

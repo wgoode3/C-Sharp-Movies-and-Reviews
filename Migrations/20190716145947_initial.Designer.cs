@@ -9,7 +9,7 @@ using MovieReviews.Models;
 namespace MovieReviews.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20190715195032_initial")]
+    [Migration("20190716145947_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,19 @@ namespace MovieReviews.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.11-servicing-32099");
+
+            modelBuilder.Entity("MovieReviews.Models.Genre", b =>
+                {
+                    b.Property<int>("GenreId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("GenreId");
+
+                    b.ToTable("Genres");
+                });
 
             modelBuilder.Entity("MovieReviews.Models.Movie", b =>
                 {
@@ -35,6 +48,24 @@ namespace MovieReviews.Migrations
                     b.HasKey("MovieId");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("MovieReviews.Models.MovieHasGenres", b =>
+                {
+                    b.Property<int>("MovieHasGenresId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("GenreId");
+
+                    b.Property<int>("MovieId");
+
+                    b.HasKey("MovieHasGenresId");
+
+                    b.HasIndex("GenreId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("MovieHasGenres");
                 });
 
             modelBuilder.Entity("MovieReviews.Models.Review", b =>
@@ -60,6 +91,19 @@ namespace MovieReviews.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("MovieReviews.Models.MovieHasGenres", b =>
+                {
+                    b.HasOne("MovieReviews.Models.Genre", "MovieGenre")
+                        .WithMany("Movies")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MovieReviews.Models.Movie", "MovieInGenre")
+                        .WithMany("Genres")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MovieReviews.Models.Review", b =>
